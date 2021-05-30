@@ -22,7 +22,6 @@ bot.on("message", message => {
             .addField(`\`ping\``, `Check your bot's ping`)
             .addField(`\`kick\``, `Usage: **${config.prefix}kick [@User]**\n**${config.prefix}kick [@User][Reason]**`)
             .addField(`\`ban\``, `Usage: **${config.prefix}ban [@User]**\n**${config.prefix}ban [@User][Reason]**`)
-            .addField(`\`add\``, `Adds a role to a user \nUsage: **${config.prefix}add [@User] [Role]**`)
             .addField(`\`remove\``, `Removes a role from a user \nUsage: **${config.prefix}remove [@User] [Role]**`)
             .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`)
             .addField(`\`rps\``, `Play rock paper scissors`)
@@ -85,35 +84,6 @@ bot.on("message", message => {
                 message.channel.send(`${member.user.tag} was banned for ${reason}`);
             })
         }
-    }
-
-    if (command === "add") {
-        if (!message.member.hasPermission('MANAGE_ROLES'))
-            return message.channel.send("Insufficient permissions (Requires permission `Manage roles`)").then(msg => {
-        msg.delete({ timeout: 30000 })
-    })
-        const member = message.mentions.members.first()
-        if (!member)
-            return message.channel.send("You have not mentioned a user").then(msg => {
-        msg.delete({ timeout: 30000 })
-    })
-        const add = args.slice(1).join(" ")
-        if (!add)
-            return message.channel.send("You have not specified a role").then(msg => {
-        msg.delete({ timeout: 30000 })
-    })
-        const roleAdd = message.guild.roles.cache.find(role => role.name === add)
-        if (!roleAdd)
-            return message.channel.send("This role does not exist").then(msg => {
-        msg.delete({ timeout: 30000 })
-    })
-        if (member.roles.cache.get(roleAdd.id))
-            return message.channel.send(`This user already has the ${add} role`).then(msg => {
-        msg.delete({ timeout: 30000 })
-    })
-        member.roles.add(roleAdd.id).then((member) => {
-            message.channel.send(`${add} added to ${member.displayName}`)
-        })
     }
 
     if (command === "remove") {
